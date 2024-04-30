@@ -18,7 +18,7 @@ pipeline {
         stage('Deploy to XAMPP') {
             steps {
                 // Step 2: Copy HTML files to XAMPP htdocs directory
-                bat "xcopy /S /Y .\\* ${env.XAMPP_INSTALL_DIR}"
+                bat "robocopy . ${env.XAMPP_INSTALL_DIR} /E /COPYALL /R:2 /W:5"
             }
         }
 
@@ -50,6 +50,5 @@ pipeline {
         }
     }
 }
-
 
 
