@@ -3,15 +3,15 @@ pipeline {
     
     environment {
         // Define environment variables
-        XAMPP_INSTALL_DIR = 'C:/xampp/htdocs' // Adjust the path to your XAMPP installation directory
-        GITHUB_REPO_URL = 'https://github.com/yourusername/your-repo.git' // Replace with your GitHub repository URL
+        XAMPP_INSTALL_DIR = 'C:\xampp\htdocs' // Adjust the path to your XAMPP installation directory
+        GITHUB_REPO_URL = 'https://github.com/Bhramanand/Java.git' // Replace with your GitHub repository URL
     }
 
     stages {
         stage('Checkout') {
             steps {
                 // Checkout the source code from the GitHub repository
-                git branch: 'master', url: "${env.GITHUB_REPO_URL}"
+                git branch: 'main', url: "${env.GITHUB_REPO_URL}"
             }
         }
 
