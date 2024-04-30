@@ -12,14 +12,26 @@ pipeline {
         stage('Build') {
             steps {
                 // Compile the Java program
-                sh 'javac Addition.java'
+                try {
+                    sh 'javac Addition.java'
+                } catch (Exception e) {
+                    echo "Build failed: ${e.message}"
+                    currentBuild.result = 'FAILURE'
+                    error(e.message)
+                }
             }
         }
 
         stage('Test') {
             steps {
                 // Execute the Java program
-                sh 'java Addition'
+                try {
+                    sh 'java Addition'
+                } catch (Exception e) {
+                    echo "Test failed: ${e.message}"
+                    currentBuild.result = 'FAILURE'
+                    error(e.message)
+                }
             }
         }
     }
