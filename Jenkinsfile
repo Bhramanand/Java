@@ -1,27 +1,45 @@
 pipeline {
     agent any
+    
+    environment {
+        // Define environment variables
+        XAMPP_INSTALL_DIR = 'C:/xampp/htdocs' // Adjust the path to your XAMPP installation directory
+        GITHUB_REPO_URL = 'https://github.com/yourusername/your-repo.git' // Replace with your GitHub repository URL
+    }
 
     stages {
         stage('Checkout') {
             steps {
                 // Checkout the source code from the GitHub repository
-                checkout scm
+                git branch: 'master', url: "${env.GITHUB_REPO_URL}"
             }
         }
 
-        stage('Build') {
+        stage('Deploy to XAMPP') {
             steps {
-                // Compile the Java program
-                sh 'javac Addition.java'
+                // Copy HTML files to XAMPP htdocs directory
+                bat "xcopy /E /Y .\\ ${env.XAMPP_INSTALL_DIR}"
             }
         }
 
-        stage('Test') {
+        stage('Post-deployment Tests') {
             steps {
-                // Execute the Java program
-                sh 'java Addition'
+                // Perform any post-deployment tests or validations here
+                // For example, you could use curl or Selenium to test the deployed web pages
             }
         }
     }
+
+    post {
+        success {
+            echo 'Deployment successful!'
+            // Optionally, you can trigger downstream jobs or notifications here
+        }
+        failure {
+            echo 'Deployment failed!'
+            // Optionally, you can trigger notifications or take corrective actions here
+        }
+    }
 }
+
 
